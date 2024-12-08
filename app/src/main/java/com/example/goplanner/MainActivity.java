@@ -1,6 +1,8 @@
 package com.example.goplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -28,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         mainCalendarCV = findViewById(R.id.mainCalendarCV);
         mainTaskBtn = findViewById(R.id.mainTaskBtn);
         mainRemindersRV = findViewById(R.id.mainRemindersRV);
+
 
     }
 }
