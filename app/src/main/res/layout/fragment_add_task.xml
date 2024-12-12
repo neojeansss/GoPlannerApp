@@ -4,4 +4,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5FFFC"
-    tools:context=".AddTaskFragment"/>
+    tools:context=".AddTaskFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Activity Title"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTitleET"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/filling_box"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <Button
+                    android:id="@+id/editEventBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Event"
+                    android:backgroundTint="#ffffff"
+                    android:textColor="#757575"
+                    />
+
+                <Button
+                    android:id="@+id/editTaskBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Task"
+                    android:backgroundTint="#ffffff"
+                    android:textColor="#757575"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Activity Date"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editDateET"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/filling_box"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
