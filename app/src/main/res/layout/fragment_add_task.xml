@@ -29,17 +29,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="Activity Title"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTitleET"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:ems="10"
                 android:inputType="text"
                 android:background="@drawable/filling_box"
@@ -86,14 +86,57 @@
             <EditText
                 android:id="@+id/editDateET"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:ems="10"
                 android:inputType="text"
                 android:background="@drawable/filling_box"
                 />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Activity Time"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <EditText
+                    android:id="@+id/editTimeStartET"
+                    android:layout_width="175dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="2dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:background="@drawable/filling_box"
+                    />
+
+                <EditText
+                    android:id="@+id/editTimeEndET"
+                    android:layout_width="175dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="42dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:background="@drawable/filling_box"
+                    />
+
+
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
