@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "825479010830",
+    "firebase_url": "https://goplanner-194fe-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "goplanner-194fe",
+    "storage_bucket": "goplanner-194fe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825479010830:android:31f8b1865e08483f033a5f",
+        "android_client_info": {
+          "package_name": "com.example.goplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUoF4iFOfvA4VQBlZyHPGHRBpH_vZ0qhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
