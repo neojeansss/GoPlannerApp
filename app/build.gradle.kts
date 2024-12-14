@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.drawerlayout)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.common)
+    implementation(libs.play.services.location)
 //    implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.database.ktx)
     implementation(libs.firebase.firestore)

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,15 @@ import android.widget.Toast;
 import com.google.firebase.Firebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddTaskFragment extends Fragment {
     EditText editTitleET, editDateET, editTimeStartET, editTimeEndET, editDescET;
-    Button editEventBtn, editTaskBtn;
+    Button editEventBtn, editTaskBtn, editSubmitBtn;
     private DatabaseReference databaseReference;
 
     public AddTaskFragment() {
@@ -45,38 +49,72 @@ public class AddTaskFragment extends Fragment {
         editTimeStartET = view.findViewById(R.id.editTimeStartET);
         editTimeEndET = view.findViewById(R.id.editTimeEndET);
         editDescET = view.findViewById(R.id.editDescET);
+        editEventBtn = view.findViewById(R.id.editEventBtn);
+        editTaskBtn = view.findViewById(R.id.editTaskBtn);
+        editSubmitBtn = view.findViewById(R.id.editSubmitBtn);
 
         editEventBtn.setOnClickListener(v->{
             selectedType[0] ="Event";
-            editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.BLUE));
+            editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             editEventBtn.setTextColor(Color.WHITE);
-            editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
             editTaskBtn.setTextColor(Color.BLACK);
 
         });
 
         editTaskBtn.setOnClickListener(v->{
             selectedType[0] ="Task";
-            editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.BLUE));
+            editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             editTaskBtn.setTextColor(Color.WHITE);
-            editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-            editTaskBtn.setTextColor(Color.BLACK);
+            editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+            editEventBtn.setTextColor(Color.BLACK);
+        });
+
+
+        editSubmitBtn.setOnClickListener(v->{
+            String title = editTitleET.getText().toString();
+            String date = editDateET.getText().toString();
+            String timeStart = editTimeStartET.getText().toString();
+            String timeEnd = editTimeEndET.getText().toString();
+            String desc = editDescET.getText().toString();
+            String type = selectedType[0];
+            if (title.isEmpty() || date.isEmpty() || timeStart.isEmpty() || timeEnd.isEmpty() || desc.isEmpty()) {
+                Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (type.isEmpty()) {
+                Toast.makeText(getActivity(), "Please select Event or Task", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Map<String, Object> task = new HashMap<>();
+
+            task.put("title", title);
+            task.put("date", date);
+            task.put("timeStart", timeStart);
+            task.put("timeEnd", timeEnd);
+            task.put("desc", desc);
+            task.put("type", type);
+            task.put("timestamp", new Date().getTime());
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("reminders")
+                    .add(task)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d("Firestore", "Reminder added: " + documentReference.getId());
+                        Toast.makeText(getContext(), "Reminder Added", Toast.LENGTH_SHORT).show();
+                        getActivity().getSupportFragmentManager().popBackStack();
+
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("Firestore", "Error adding reminder", e);
+                    });
+
+
         });
         return view;
     }
 
-    private void saveTaskToFirebase(){
-        String title = editTitleET.getText().toString();
-        String date = editDateET.getText().toString();
-        String timeStart = editTimeStartET.getText().toString();
-        String timeEnd = editTimeEndET.getText().toString();
-        String desc = editDescET.getText().toString();
 
-        if(title.isEmpty() || date.isEmpty() || timeStart.isEmpty() || timeEnd.isEmpty() || desc.isEmpty()){
-            Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-    }
 
 }
