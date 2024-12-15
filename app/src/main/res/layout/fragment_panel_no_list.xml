@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PanelNoList"
+    android:background="#F5FFFC">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/panelDateTV"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Date"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:background="@drawable/square"
+            />
+
+        <TextView
+            android:id="@+id/noScheduleTV"
+            android:layout_width="match_parent"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="1dp"
+            android:text="No Schedule"
+            android:layout_height="500dp"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:background="@drawable/panelbox"
+            />
+    </LinearLayout>
+</FrameLayout>

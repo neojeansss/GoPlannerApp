@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5FFFC"
     tools:context=".ToDoFragment">
 
     <LinearLayout
@@ -15,7 +16,7 @@
             android:layout_width="421dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alexandria_bold"
-            android:text="To-Do List for Today"
+            android:text="Weekly To-Do List "
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -24,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alexandria_bold"
-            android:text="TextView"
+            android:text="Dates - Dates"
             android:textAlignment="center" />
 
         <androidx.recyclerview.widget.RecyclerView
