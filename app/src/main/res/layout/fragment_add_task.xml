@@ -18,7 +18,7 @@
             android:paddingBottom="16dp">
 
             <CalendarView
-                android:id="@+id/calendarView"
+                android:id="@+id/editCalendarView"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"

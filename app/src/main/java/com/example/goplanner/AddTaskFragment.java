@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +27,10 @@ import java.util.Map;
 public class AddTaskFragment extends Fragment {
     EditText editTitleET, editDateET, editTimeStartET, editTimeEndET, editDescET;
     Button editEventBtn, editTaskBtn, editSubmitBtn;
+
+    CalendarView editCalendarView;
+
+
     private DatabaseReference databaseReference;
 
     public AddTaskFragment() {
@@ -52,6 +57,12 @@ public class AddTaskFragment extends Fragment {
         editEventBtn = view.findViewById(R.id.editEventBtn);
         editTaskBtn = view.findViewById(R.id.editTaskBtn);
         editSubmitBtn = view.findViewById(R.id.editSubmitBtn);
+        editCalendarView = view.findViewById(R.id.editCalendarView);
+
+        editCalendarView.setOnDateChangeListener((v, year, month, dayOfMonth) -> {
+                String selectedDate = dayOfMonth + "-" + (month+1) + "-" + year;
+                editDateET.setText(selectedDate);
+        });
 
         editEventBtn.setOnClickListener(v->{
             selectedType[0] ="Event";
