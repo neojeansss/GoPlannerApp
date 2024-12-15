@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,9 +46,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 // Handle menu item clicks
-                switch (item.getItemId()) {
+                int itemId = item.getItemId();
+                    if(itemId == R.id.nav_todo){
+                        Fragment toDoFragment = new ToDoFragment();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.fragmentCV, toDoFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
 
-                }
+                    }else if(itemId == R.id.nav_calendar){
+                        ScheduleFragment scheduleFragment = new ScheduleFragment();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.fragmentCV, scheduleFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+
                 drawerLayout.closeDrawers();
                 return true;
             }
