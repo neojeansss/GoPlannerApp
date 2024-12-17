@@ -34,15 +34,7 @@ public class ScheduleFragment extends Fragment {
 
 
         //Ini gak kerja
-        if(savedInstanceState == null){
-            PanelNoList panelNoList = new PanelNoList();
-            FragmentManager fragmentManager = getChildFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.panelFragmentCV, panelNoList);
-            fragmentTransaction.commit();
 
-
-        }
 
 
         MaterialButton mainAddBtn = view.findViewById(R.id.mainAddBtn);
