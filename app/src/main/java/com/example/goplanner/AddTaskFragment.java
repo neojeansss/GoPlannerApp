@@ -59,6 +59,21 @@ public class AddTaskFragment extends Fragment {
         editSubmitBtn = view.findViewById(R.id.editSubmitBtn);
         editCalendarView = view.findViewById(R.id.editCalendarView);
 
+        Bundle args = getArguments();
+        if (args != null && args.containsKey("SELECTED_DATE")) {
+            String selectedDate = args.getString("SELECTED_DATE");
+            editDateET.setText(selectedDate);
+
+            String[] dateParts = selectedDate.split("-");
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]) - 1; // Bulan dimulai dari 0 di Calendar
+            int year = Integer.parseInt(dateParts[2]);
+
+            java.util.Calendar calendar = java.util.Calendar.getInstance();
+            calendar.set(year, month, day);
+            editCalendarView.setDate(calendar.getTimeInMillis());
+        }
+
         editCalendarView.setOnDateChangeListener((v, year, month, dayOfMonth) -> {
                 String selectedDate = dayOfMonth + "-" + (month+1) + "-" + year;
                 editDateET.setText(selectedDate);

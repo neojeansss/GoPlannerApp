@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5FFFC"
+    tools:context=".PanelList">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/panelDateTV"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Date"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:background="@drawable/square"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/panelListRV"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/panelbox" />
+    </LinearLayout>
+
+
+</FrameLayout>
