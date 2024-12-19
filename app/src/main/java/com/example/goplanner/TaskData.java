@@ -9,6 +9,11 @@ public class TaskData {
     private String desc;
     private String type;
 
+    // No-argument constructor (required for Firebase Firestore)
+    public TaskData() {
+    }
+
+    // Parameterized constructor without title
     public TaskData(String date, String timeStart, String timeEnd, String desc, String type) {
         this.date = date;
         this.timeStart = timeStart;
@@ -17,15 +22,17 @@ public class TaskData {
         this.type = type;
     }
 
+    // Parameterized constructor with title
     public TaskData(String title, String date, String timeStart, String timeEnd, String desc, String type) {
-        title = title;
-        date = date;
-        timeStart = timeStart;
-        timeEnd = timeEnd;
-        desc = desc;
-        type = type;
+        this.title = title;
+        this.date = date;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.desc = desc;
+        this.type = type;
     }
 
+    // Getters and setters
     public String getTitle() {
         return title;
     }

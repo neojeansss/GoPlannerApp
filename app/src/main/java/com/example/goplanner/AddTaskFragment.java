@@ -112,7 +112,8 @@ public class AddTaskFragment extends Fragment {
             db.collection("reminders")
                     .add(task)
                     .addOnSuccessListener(documentReference -> {
-                        Log.d("Firestore", "Reminder added: " + documentReference.getId());
+                        String uniqueId = documentReference.getId();
+                        Log.d("Firestore", "Reminder added: " + uniqueId);
                         Toast.makeText(getContext(), "Reminder Added", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().popBackStack();
 

@@ -28,14 +28,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return holder;
     }
 
+    public TaskAdapter(List<TaskData> taskDataList) {
+        this.taskData = taskDataList;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskHolder holder, int position) {
         String title = taskData.get(position).getTitle();
         String date = taskData.get(position).getDate();
         String timeStart = taskData.get(position).getTimeStart();
         String timeEnd = taskData.get(position).getTimeEnd();
-        String desc = taskData.get(position).getDesc();
         String type = taskData.get(position).getType();
+
+        holder.todoTitleTV.setText(title);
+        holder.todoDateTV.setText(date);
+        holder.todoStartTimeTV.setText(timeStart);
+        holder.todoEndTimeTV.setText(timeEnd);
+        holder.toDoTypeTV.setText(type);
 
     }
 
@@ -51,10 +60,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             super(itemView);
 
             todoTitleTV = itemView.findViewById(R.id.todoTitleTV);
-            todoDateTV = itemView.findViewById(R.id.toDoDateTV);
+            todoDateTV = itemView.findViewById(R.id.todoDateTV);
             todoStartTimeTV = itemView.findViewById(R.id.todoStartTimeTV);
             todoEndTimeTV = itemView.findViewById(R.id.todoEndTimeTV);
             todoTaskCL = itemView.findViewById(R.id.todoTaskCL);
+            toDoTypeTV = itemView.findViewById(R.id.toDoStatusTV);
         }
     }
 }
