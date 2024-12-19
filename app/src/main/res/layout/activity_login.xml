@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Judul Aplikasi -->
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GoPlanner"
+        android:textSize="30sp"
+        android:textColor="@android:color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"/>
+
+    <!-- Deskripsi Aplikasi -->
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aplikasi perencanaan waktu dan tugas Anda"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/appTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/my_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Sign In" />
+
+</RelativeLayout>
