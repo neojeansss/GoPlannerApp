@@ -1,5 +1,6 @@
 package com.example.goplanner;
 
+import android.app.TimePickerDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -103,6 +104,15 @@ public class AddTaskFragment extends Fragment {
             editEventBtn.setTextColor(Color.BLACK);
         });
 
+        editTimeStartET.setOnClickListener(v -> {
+            showTimePickerDialog((time) -> editTimeStartET.setText(time));
+        });
+
+        // Time Picker for End Time
+        editTimeEndET.setOnClickListener(v -> {
+            showTimePickerDialog((time) -> editTimeEndET.setText(time));
+        });
+
         editSubmitBtn.setOnClickListener(v -> {
             String title = editTitleET.getText().toString();
             String date = editDateET.getText().toString();
@@ -114,7 +124,9 @@ public class AddTaskFragment extends Fragment {
                 Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-            
+
+
+
             if (!timeStart.matches("\\d+") || !timeEnd.matches("\\d+")) {
                 Toast.makeText(getActivity(), "Start time and End time must be numeric", Toast.LENGTH_SHORT).show();
                 return;
@@ -158,6 +170,29 @@ public class AddTaskFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void showTimePickerDialog(TimeSetCallback callback) {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        int hour = calendar.get(java.util.Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(java.util.Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                getContext(),
+                (view, selectedHour, selectedMinute) -> {
+                    String formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute);
+                    callback.onTimeSet(formattedTime);
+                },
+                hour,
+                minute,
+                true // Use true for 24-hour format, false for AM/PM format
+        );
+        timePickerDialog.show();
+    }
+
+    // Define a callback interface for time selection
+    interface TimeSetCallback {
+        void onTimeSet(String time);
     }
 
 
