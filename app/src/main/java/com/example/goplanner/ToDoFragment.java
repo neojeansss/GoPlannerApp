@@ -58,7 +58,7 @@ public class ToDoFragment extends Fragment {
         Date endOfWeek = calendar.getTime(); // End of the week
 
         // Format dates to match Firestore's date format
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Adjust to Firestore format
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Adjust to Firestore format
         String startOfWeekStr = sdf.format(startOfWeek);
         String endOfWeekStr = sdf.format(endOfWeek);
 

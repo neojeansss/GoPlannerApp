@@ -1,5 +1,6 @@
 package com.example.goplanner;
 
+import android.app.TimePickerDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,14 +42,15 @@ public class AddTaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseReference = FirebaseDatabase.getInstance().getReference("tasks");
+        databaseReference = FirebaseDatabase.getInstance().getReference("reminders");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_add_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_task, container, false);
         final String[] selectedType = {""};
+
         editTitleET = view.findViewById(R.id.editTitleET);
         editDateET = view.findViewById(R.id.editDateET);
         editTimeStartET = view.findViewById(R.id.detailTimeStartET);
@@ -64,39 +67,53 @@ public class AddTaskFragment extends Fragment {
             editDateET.setText(selectedDate);
 
             String[] dateParts = selectedDate.split("-");
-            int day = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]) - 1; // Bulan dimulai dari 0 di Calendar
-            int year = Integer.parseInt(dateParts[2]);
+            int day = Integer.parseInt(dateParts[2]);
+            int month = Integer.parseInt(dateParts[1]) - 1; // Month is 0-based in Calendar
+            int year = Integer.parseInt(dateParts[0]);
 
             java.util.Calendar calendar = java.util.Calendar.getInstance();
             calendar.set(year, month, day);
+
             editCalendarView.setDate(calendar.getTimeInMillis());
+            Log.d("Calendar", "Date Back to normal");
+        } else {
+            // Set CalendarView to today's date
+            java.util.Calendar today = java.util.Calendar.getInstance();
+            Log.d("Calendar", "Date Back to today");
+            editCalendarView.setDate(today.getTimeInMillis());
         }
 
         editCalendarView.setOnDateChangeListener((v, year, month, dayOfMonth) -> {
-                String selectedDate = dayOfMonth + "-" + (month+1) + "-" + year;
-                editDateET.setText(selectedDate);
+            String selectedDate = year + "-" + String.format("%02d", month + 1) + "-" + String.format("%02d", dayOfMonth);
+            editDateET.setText(selectedDate);
         });
 
-        editEventBtn.setOnClickListener(v->{
-            selectedType[0] ="Event";
+        editEventBtn.setOnClickListener(v -> {
+            selectedType[0] = "Event";
             editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             editEventBtn.setTextColor(Color.WHITE);
             editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
             editTaskBtn.setTextColor(Color.BLACK);
-
         });
 
-        editTaskBtn.setOnClickListener(v->{
-            selectedType[0] ="Task";
+        editTaskBtn.setOnClickListener(v -> {
+            selectedType[0] = "Task";
             editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             editTaskBtn.setTextColor(Color.WHITE);
             editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
             editEventBtn.setTextColor(Color.BLACK);
         });
 
+        editTimeStartET.setOnClickListener(v -> {
+            showTimePickerDialog((time) -> editTimeStartET.setText(time));
+        });
 
-        editSubmitBtn.setOnClickListener(v->{
+        // Time Picker for End Time
+        editTimeEndET.setOnClickListener(v -> {
+            showTimePickerDialog((time) -> editTimeEndET.setText(time));
+        });
+
+        editSubmitBtn.setOnClickListener(v -> {
             String title = editTitleET.getText().toString();
             String date = editDateET.getText().toString();
             String timeStart = editTimeStartET.getText().toString();
@@ -107,6 +124,19 @@ public class AddTaskFragment extends Fragment {
                 Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+
+
+
+
+            // validation
+            Time start = Time.valueOf(timeStart + ":00");
+            Time end = Time.valueOf(timeEnd + ":00");
+            if (start.after(end)) {
+                Toast.makeText(getActivity(), "Start time must be earlier than End time", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             if (type.isEmpty()) {
                 Toast.makeText(getActivity(), "Please select Event or Task", Toast.LENGTH_SHORT).show();
@@ -130,16 +160,38 @@ public class AddTaskFragment extends Fragment {
                         Log.d("Firestore", "Reminder added: " + uniqueId);
                         Toast.makeText(getContext(), "Reminder Added", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().popBackStack();
-
                     })
                     .addOnFailureListener(e -> {
                         Log.e("Firestore", "Error adding reminder", e);
                     });
-
-
         });
+
         return view;
     }
+
+    private void showTimePickerDialog(TimeSetCallback callback) {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        int hour = calendar.get(java.util.Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(java.util.Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                getContext(),
+                (view, selectedHour, selectedMinute) -> {
+                    String formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute);
+                    callback.onTimeSet(formattedTime);
+                },
+                hour,
+                minute,
+                true // Use true for 24-hour format, false for AM/PM format
+        );
+        timePickerDialog.show();
+    }
+
+    // Define a callback interface for time selection
+    interface TimeSetCallback {
+        void onTimeSet(String time);
+    }
+
 
 
 
