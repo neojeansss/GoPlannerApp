@@ -30,26 +30,20 @@ public class PanelList extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_panel_list, container, false);
 
-        // Initialize views
         TextView panelDateTV = view.findViewById(R.id.panelDateTV);
         RecyclerView recyclerView = view.findViewById(R.id.panelListRV);
-        // Get the selected date from arguments
+
         if (getArguments() != null) {
             String selectedDate = getArguments().getString("SELECTED_DATE");
             if (selectedDate != null) {
-                // Display the selected date
-                panelDateTV.setText(selectedDate);
-
-                // Fetch tasks for the selected date
+                panelDateTV.setText(formatDate(selectedDate));
                 fetchTasksForDate(selectedDate);
             }
         }
-        // Set up RecyclerView
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new TaskAdapter(taskData); // Initialize adapter with an empty list
+        adapter = new TaskAdapter(taskData);
         recyclerView.setAdapter(adapter);
-
-
 
         return view;
     }

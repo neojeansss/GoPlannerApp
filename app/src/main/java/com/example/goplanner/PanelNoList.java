@@ -50,7 +50,7 @@ public class PanelNoList extends Fragment {
 
     private String formatDate(String selectedDate) {
         try {
-            SimpleDateFormat originalDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             originalDateFormat.setLenient(false);
             Date parsedDate = originalDateFormat.parse(selectedDate);
 
