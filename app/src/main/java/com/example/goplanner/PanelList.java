@@ -14,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PanelList extends Fragment {
     private List<TaskData> taskData = new ArrayList<>();
@@ -48,6 +52,20 @@ public class PanelList extends Fragment {
 
 
         return view;
+    }
+
+    private String formatDate(String selectedDate) {
+        try {
+            SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            originalDateFormat.setLenient(false);
+            Date parsedDate = originalDateFormat.parse(selectedDate);
+
+            SimpleDateFormat desiredDateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+            return desiredDateFormat.format(parsedDate);
+        } catch (ParseException | IllegalArgumentException e) {
+            Log.w("PanelList", "Invalid date format: " + selectedDate, e);
+            return "Invalid Date";
+        }
     }
 
     private void fetchTasksForDate(String selectedDate) {

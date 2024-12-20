@@ -42,8 +42,10 @@ public class ScheduleFragment extends Fragment {
         MaterialButton mainAddBtn = view.findViewById(R.id.mainAddBtn);
         CalendarView calendarView = view.findViewById(R.id.calendarView2);
 
+
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
             selectedDate = year + "-" + String.format("%02d",month+1) + "-" + String.format("%02d", dayOfMonth);
+            Log.d("ScheduleFragment", "Selected Date: " + selectedDate);
 
             // Fetch data from Firestore for the selected date
             fetchRemindersForDate(selectedDate);
@@ -74,19 +76,14 @@ public class ScheduleFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("Firestore", "Document fetched: " + document.getData());
                             reminders.add(document.getString("title")); // Fetch "title"
-
                         }
 
                         if (reminders.isEmpty()) {
-                            showFragment(new PanelNoList());
+                            PanelNoList panelNoList = new PanelNoList();
+                            showFragment(panelNoList, date);
                         } else {
-
                             PanelList panelList = new PanelList();
-                            Log.d("Task", "Items have been fetched");
-                            Bundle bundle = new Bundle();
-                            bundle.putStringArrayList("REMINDERS_LIST", new ArrayList<>(reminders));
-                            panelList.setArguments(bundle);
-                            showFragment(panelList);
+                            showFragment(panelList, date);
                         }
                     } else {
                         Log.e("Firestore", "Error fetching reminders", task.getException());
@@ -94,9 +91,12 @@ public class ScheduleFragment extends Fragment {
                 });
     }
 
-    private void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment, String date) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("SELECTED_DATE", date);
+        fragment.setArguments(bundle);
         transaction.replace(R.id.childFragmentContainer, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 }

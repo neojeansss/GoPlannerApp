@@ -16,7 +16,6 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,10 +53,10 @@ public class AddTaskFragment extends Fragment {
 
         editTitleET = view.findViewById(R.id.editTitleET);
         editDateET = view.findViewById(R.id.editDateET);
-        editTimeStartET = view.findViewById(R.id.editTimeStartET);
+        editTimeStartET = view.findViewById(R.id.detailTimeStartET);
         editTimeEndET = view.findViewById(R.id.editTimeEndET);
         editDescET = view.findViewById(R.id.editDescET);
-        editEventBtn = view.findViewById(R.id.editEventBtn);
+        editEventBtn = view.findViewById(R.id.detailEventBtn);
         editTaskBtn = view.findViewById(R.id.editTaskBtn);
         editSubmitBtn = view.findViewById(R.id.editSubmitBtn);
         editCalendarView = view.findViewById(R.id.editCalendarView);
