@@ -12,16 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="41dp"
-            android:layout_height="41dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="84dp"
-            android:src="@drawable/square"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <EditText
             android:id="@+id/detailTitleET"
             android:layout_width="wrap_content"
@@ -43,10 +33,10 @@
             android:layout_width="40dp"
             android:layout_height="43dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="14dp"
             android:src="@drawable/baseline_access_time_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
         <EditText
             android:id="@+id/detailTimeStartET"
@@ -99,12 +89,12 @@
             android:id="@+id/detailDateTV"
             android:layout_width="106dp"
             android:layout_height="33dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="11dp"
             android:layout_marginTop="27dp"
             android:layout_marginEnd="236dp"
             android:text="Date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/detailTitleET" />
 
         <TextView
@@ -166,6 +156,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/detailSaveBtn"
             app:layout_constraintTop_toBottomOf="@+id/detailDescET" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="42dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="91dp"
+            android:src="@drawable/_652191"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

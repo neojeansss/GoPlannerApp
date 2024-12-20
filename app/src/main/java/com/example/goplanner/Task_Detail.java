@@ -11,17 +11,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.w3c.dom.Text;
 
 public class Task_Detail extends Fragment {
+
+    private DatabaseReference databaseReference;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("reminders");
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +66,7 @@ public class Task_Detail extends Fragment {
         detailSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle save button click (e.g., update task details in database)
-                // ... (code to save task details)
+
             }
         });
 
