@@ -43,7 +43,7 @@ public class ScheduleFragment extends Fragment {
         CalendarView calendarView = view.findViewById(R.id.calendarView2);
 
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            selectedDate = dayOfMonth + "-" + (month + 1) + "-" + year;
+            selectedDate = year + "-" + String.format("%02d",month+1) + "-" + String.format("%02d", dayOfMonth);
 
             // Fetch data from Firestore for the selected date
             fetchRemindersForDate(selectedDate);
@@ -74,6 +74,7 @@ public class ScheduleFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("Firestore", "Document fetched: " + document.getData());
                             reminders.add(document.getString("title")); // Fetch "title"
+
                         }
 
                         if (reminders.isEmpty()) {
@@ -81,7 +82,7 @@ public class ScheduleFragment extends Fragment {
                         } else {
 
                             PanelList panelList = new PanelList();
-
+                            Log.d("Task", "Items have been fetched");
                             Bundle bundle = new Bundle();
                             bundle.putStringArrayList("REMINDERS_LIST", new ArrayList<>(reminders));
                             panelList.setArguments(bundle);

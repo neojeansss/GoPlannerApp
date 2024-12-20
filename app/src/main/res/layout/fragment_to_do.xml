@@ -15,7 +15,7 @@
             android:layout_width="421dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alexandria_bold"
-            android:text="To-Do List for Today"
+            android:text="To-Do List for This Week"
             android:textAlignment="center"
             android:textSize="24sp" />
 

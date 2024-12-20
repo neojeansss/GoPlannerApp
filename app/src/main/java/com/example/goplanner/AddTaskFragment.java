@@ -41,14 +41,15 @@ public class AddTaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseReference = FirebaseDatabase.getInstance().getReference("tasks");
+        databaseReference = FirebaseDatabase.getInstance().getReference("reminders");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_add_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_task, container, false);
         final String[] selectedType = {""};
+
         editTitleET = view.findViewById(R.id.editTitleET);
         editDateET = view.findViewById(R.id.editDateET);
         editTimeStartET = view.findViewById(R.id.editTimeStartET);
@@ -65,39 +66,44 @@ public class AddTaskFragment extends Fragment {
             editDateET.setText(selectedDate);
 
             String[] dateParts = selectedDate.split("-");
-            int day = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]) - 1; // Bulan dimulai dari 0 di Calendar
-            int year = Integer.parseInt(dateParts[2]);
+            int day = Integer.parseInt(dateParts[2]);
+            int month = Integer.parseInt(dateParts[1]) - 1; // Month is 0-based in Calendar
+            int year = Integer.parseInt(dateParts[0]);
 
             java.util.Calendar calendar = java.util.Calendar.getInstance();
             calendar.set(year, month, day);
+
             editCalendarView.setDate(calendar.getTimeInMillis());
+            Log.d("Calendar", "Date Back to normal");
+        } else {
+            // Set CalendarView to today's date
+            java.util.Calendar today = java.util.Calendar.getInstance();
+            Log.d("Calendar", "Date Back to today");
+            editCalendarView.setDate(today.getTimeInMillis());
         }
 
         editCalendarView.setOnDateChangeListener((v, year, month, dayOfMonth) -> {
-                String selectedDate = dayOfMonth + "-" + (month+1) + "-" + year;
-                editDateET.setText(selectedDate);
+            String selectedDate = year + "-" + String.format("%02d", month + 1) + "-" + String.format("%02d", dayOfMonth);
+            editDateET.setText(selectedDate);
         });
 
-        editEventBtn.setOnClickListener(v->{
-            selectedType[0] ="Event";
+        editEventBtn.setOnClickListener(v -> {
+            selectedType[0] = "Event";
             editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             editEventBtn.setTextColor(Color.WHITE);
             editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
             editTaskBtn.setTextColor(Color.BLACK);
-
         });
 
-        editTaskBtn.setOnClickListener(v->{
-            selectedType[0] ="Task";
+        editTaskBtn.setOnClickListener(v -> {
+            selectedType[0] = "Task";
             editTaskBtn.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             editTaskBtn.setTextColor(Color.WHITE);
             editEventBtn.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
             editEventBtn.setTextColor(Color.BLACK);
         });
 
-
-        editSubmitBtn.setOnClickListener(v->{
+        editSubmitBtn.setOnClickListener(v -> {
             String title = editTitleET.getText().toString();
             String date = editDateET.getText().toString();
             String timeStart = editTimeStartET.getText().toString();
@@ -108,6 +114,20 @@ public class AddTaskFragment extends Fragment {
                 Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+            
+            if (!timeStart.matches("\\d+") || !timeEnd.matches("\\d+")) {
+                Toast.makeText(getActivity(), "Start time and End time must be numeric", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Validate that timeStart < timeEnd (optional)
+            int start = Integer.parseInt(timeStart);
+            int end = Integer.parseInt(timeEnd);
+            if (start >= end) {
+                Toast.makeText(getActivity(), "Start time must be earlier than End time", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             if (type.isEmpty()) {
                 Toast.makeText(getActivity(), "Please select Event or Task", Toast.LENGTH_SHORT).show();
@@ -131,16 +151,15 @@ public class AddTaskFragment extends Fragment {
                         Log.d("Firestore", "Reminder added: " + uniqueId);
                         Toast.makeText(getContext(), "Reminder Added", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().popBackStack();
-
                     })
                     .addOnFailureListener(e -> {
                         Log.e("Firestore", "Error adding reminder", e);
                     });
-
-
         });
+
         return view;
     }
+
 
 
 

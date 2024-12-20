@@ -29,12 +29,6 @@ public class PanelList extends Fragment {
         // Initialize views
         TextView panelDateTV = view.findViewById(R.id.panelDateTV);
         RecyclerView recyclerView = view.findViewById(R.id.panelListRV);
-
-        // Set up RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new TaskAdapter(taskData); // Initialize adapter with an empty list
-        recyclerView.setAdapter(adapter);
-
         // Get the selected date from arguments
         if (getArguments() != null) {
             String selectedDate = getArguments().getString("SELECTED_DATE");
@@ -46,6 +40,12 @@ public class PanelList extends Fragment {
                 fetchTasksForDate(selectedDate);
             }
         }
+        // Set up RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new TaskAdapter(taskData); // Initialize adapter with an empty list
+        recyclerView.setAdapter(adapter);
+
+
 
         return view;
     }
@@ -54,16 +54,18 @@ public class PanelList extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Log.d("Firestore", "Fetching tasks for date: " + selectedDate);
 
-        db.collection("tasks")
+        db.collection("reminders")
                 .whereEqualTo("date", selectedDate) // Filter by the selected date
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<TaskData> fetchedData = new ArrayList<>();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("Firestore", "Document fetched: " + document.getData());
                             TaskData taskItem = document.toObject(TaskData.class);
                             fetchedData.add(taskItem);
+                            Log.d("Firestore", "Fetched data: " + fetchedData.size() + " items");
                         }
                         updateTaskData(fetchedData);
                     } else {
