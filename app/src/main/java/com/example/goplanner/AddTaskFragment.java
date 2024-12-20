@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,12 +128,12 @@ public class AddTaskFragment extends Fragment {
 
 
 
-            
 
-            // Validate that timeStart < timeEnd (optional)
-            int start = Integer.parseInt(timeStart);
-            int end = Integer.parseInt(timeEnd);
-            if (start >= end) {
+
+            // validation
+            Time start = Time.valueOf(timeStart + ":00");
+            Time end = Time.valueOf(timeEnd + ":00");
+            if (start.after(end)) {
                 Toast.makeText(getActivity(), "Start time must be earlier than End time", Toast.LENGTH_SHORT).show();
                 return;
             }
