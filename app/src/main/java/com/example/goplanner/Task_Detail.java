@@ -27,9 +27,6 @@ public class Task_Detail extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference("reminders");
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,9 +74,6 @@ public class Task_Detail extends Fragment {
                 // ... (code to delete task)
             }
         });
-
-
-
 
         return view;
     }

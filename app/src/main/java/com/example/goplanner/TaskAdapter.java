@@ -63,7 +63,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 bundle.putString("TIME_END", timeEnd);
                 bundle.putString("TYPE", type);
 
-                // Navigate to Task_detail fragment
                 Fragment taskDetailFragment = new Task_Detail();
                 taskDetailFragment.setArguments(bundle);
 
