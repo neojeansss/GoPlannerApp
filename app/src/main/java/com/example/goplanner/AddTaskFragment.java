@@ -127,10 +127,7 @@ public class AddTaskFragment extends Fragment {
 
 
 
-            if (!timeStart.matches("\\d+") || !timeEnd.matches("\\d+")) {
-                Toast.makeText(getActivity(), "Start time and End time must be numeric", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            
 
             // Validate that timeStart < timeEnd (optional)
             int start = Integer.parseInt(timeStart);
