@@ -44,6 +44,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         String timeEnd = taskData.get(position).getTimeEnd();
         String type = taskData.get(position).getType();
         String desc = taskData.get(position).getDesc();
+        String documentId = taskData.get(position).getDocumentId();
 
         holder.todoTitleTV.setText(title);
         holder.todoDateTV.setText(date);
@@ -56,12 +57,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             public void onClick(View v) {
                 // Prepare a Bundle to pass all task details
                 Bundle bundle = new Bundle();
+                bundle.putString("DOCUMENT_ID", documentId);
                 bundle.putString("TITLE", title);
                 bundle.putString("DATE", date);
                 bundle.putString("DESC", desc);
                 bundle.putString("TIME_START", timeStart);
                 bundle.putString("TIME_END", timeEnd);
                 bundle.putString("TYPE", type);
+                 // Pass the document ID")
 
                 // Navigate to Task_detail fragment
                 Fragment taskDetailFragment = new Task_Detail();
@@ -70,7 +73,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 FragmentTransaction transaction = ((AppCompatActivity)activityContext).getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentCV, taskDetailFragment);
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commitAllowingStateLoss();
             }
         });
 

@@ -1,7 +1,10 @@
 package com.example.goplanner;
 
+import com.google.firebase.database.Exclude;
+
 public class TaskData {
 
+    private String documentId;
     private String title;
     private String date;
     private String timeStart;
@@ -55,6 +58,13 @@ public class TaskData {
 
     public void setTimeStart(String timeStart) {
         this.timeStart = timeStart;
+    }
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getTimeEnd() {
