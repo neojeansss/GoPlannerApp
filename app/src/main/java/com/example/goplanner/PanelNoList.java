@@ -50,7 +50,7 @@ public class PanelNoList extends Fragment {
 
     private String formatDate(String selectedDate) {
         try {
-            SimpleDateFormat originalDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             originalDateFormat.setLenient(false);
             Date parsedDate = originalDateFormat.parse(selectedDate);
 
@@ -59,6 +59,7 @@ public class PanelNoList extends Fragment {
         } catch (ParseException | IllegalArgumentException e) {
             Log.w("PanelList", "Invalid date format: " + selectedDate, e);
             return "Invalid Date";
-        }
-    }
+ }
+}
+
 }

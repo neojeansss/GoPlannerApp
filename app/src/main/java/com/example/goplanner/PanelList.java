@@ -17,6 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +39,7 @@ public class PanelList extends Fragment {
             String selectedDate = getArguments().getString("SELECTED_DATE");
             if (selectedDate != null) {
                 // Display the selected date
-                panelDateTV.setText(selectedDate);
+                panelDateTV.setText(formatDate(selectedDate));
 
                 // Fetch tasks for the selected date
                 fetchTasksForDate(selectedDate);
@@ -95,6 +96,20 @@ public class PanelList extends Fragment {
 
     private void updateTaskData(List<TaskData> fetchedData) {
         Log.d("Firestore", "Updating task data with: " + fetchedData.size() + " items");
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        Collections.sort(fetchedData, (task1, task2) -> {
+            try {
+                Date time1 = timeFormat.parse(task1.getTimeStart());
+                Date time2 = timeFormat.parse(task2.getTimeStart());
+                return time1.compareTo(time2);
+            } catch (ParseException e) {
+                Log.e("TaskSort", "Error parsing timeStart for sorting", e);
+                return 0;
+            }
+        });
+
         taskData.clear();
         taskData.addAll(fetchedData);
         adapter.notifyDataSetChanged();
