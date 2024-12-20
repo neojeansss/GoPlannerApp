@@ -14,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PanelList extends Fragment {
     private List<TaskData> taskData = new ArrayList<>();
@@ -29,12 +33,6 @@ public class PanelList extends Fragment {
         // Initialize views
         TextView panelDateTV = view.findViewById(R.id.panelDateTV);
         RecyclerView recyclerView = view.findViewById(R.id.panelListRV);
-
-        // Set up RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new TaskAdapter(taskData); // Initialize adapter with an empty list
-        recyclerView.setAdapter(adapter);
-
         // Get the selected date from arguments
         if (getArguments() != null) {
             String selectedDate = getArguments().getString("SELECTED_DATE");
@@ -46,24 +44,46 @@ public class PanelList extends Fragment {
                 fetchTasksForDate(selectedDate);
             }
         }
+        // Set up RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new TaskAdapter(taskData); // Initialize adapter with an empty list
+        recyclerView.setAdapter(adapter);
+
+
 
         return view;
+    }
+
+    private String formatDate(String selectedDate) {
+        try {
+            SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            originalDateFormat.setLenient(false);
+            Date parsedDate = originalDateFormat.parse(selectedDate);
+
+            SimpleDateFormat desiredDateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+            return desiredDateFormat.format(parsedDate);
+        } catch (ParseException | IllegalArgumentException e) {
+            Log.w("PanelList", "Invalid date format: " + selectedDate, e);
+            return "Invalid Date";
+        }
     }
 
     private void fetchTasksForDate(String selectedDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Log.d("Firestore", "Fetching tasks for date: " + selectedDate);
 
-        db.collection("tasks")
+        db.collection("reminders")
                 .whereEqualTo("date", selectedDate) // Filter by the selected date
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<TaskData> fetchedData = new ArrayList<>();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("Firestore", "Document fetched: " + document.getData());
                             TaskData taskItem = document.toObject(TaskData.class);
                             fetchedData.add(taskItem);
+                            Log.d("Firestore", "Fetched data: " + fetchedData.size() + " items");
                         }
                         updateTaskData(fetchedData);
                     } else {

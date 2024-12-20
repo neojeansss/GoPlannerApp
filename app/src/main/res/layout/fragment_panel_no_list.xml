@@ -31,7 +31,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="1dp"
             android:text="No Schedule"
-            android:layout_height="500dp"
+            android:layout_height="350dp"
             android:textAlignment="gravity"
             android:gravity="center"
             android:background="@drawable/panelbox"
