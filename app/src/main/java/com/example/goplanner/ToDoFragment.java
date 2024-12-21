@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ToDoFragment extends Fragment {
 
@@ -58,22 +61,27 @@ public class ToDoFragment extends Fragment {
         Date endOfWeek = calendar.getTime(); // End of the week
 
         // Format dates to match Firestore's date format
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Adjust to Firestore format
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Adjust to Firestore format
         String startOfWeekStr = sdf.format(startOfWeek);
         String endOfWeekStr = sdf.format(endOfWeek);
+
+
 
         Log.d("Firestore", "Querying dates from: " + startOfWeekStr + " to " + endOfWeekStr);
 
         db.collection("reminders")
-                .whereGreaterThanOrEqualTo("date", startOfWeekStr) // Start of the week
-                .whereLessThanOrEqualTo("date", endOfWeekStr) // End of the week
+                .whereGreaterThanOrEqualTo("date", startOfWeekStr)
+                .whereLessThanOrEqualTo("date", endOfWeekStr)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    taskData.clear(); // Clear the list before adding new data
+                    taskData.clear();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         TaskData task = document.toObject(TaskData.class);
                         Log.d("Firestore", "Fetched task: " + task.getTitle());
-                        taskData.add(task); // Add task to the list
+                        taskData.add(task);
+//                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+
                     }
                     adapter.notifyDataSetChanged(); // Notify the adapter to update the RecyclerView
                 })
