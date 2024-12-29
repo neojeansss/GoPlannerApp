@@ -32,55 +32,48 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         drawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        NavigationView navigationView = findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                // Handle menu item clicks
-                int itemId = item.getItemId();
-                    if(itemId == R.id.nav_todo){
-                        Fragment toDoFragment = new ToDoFragment();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.fragmentCV, toDoFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-
-                    }else if(itemId == R.id.nav_calendar){
-                        ScheduleFragment scheduleFragment = new ScheduleFragment();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.fragmentCV, scheduleFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                    }
-
-                drawerLayout.closeDrawers();
-                return true;
+        // Burger Icon Click Listener
+        findViewById(R.id.burger_icon).setOnClickListener(v -> {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_hamburger);
-
-        if (savedInstanceState == null) {
-            ScheduleFragment scheduleFragment = new ScheduleFragment();
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragmentCV, scheduleFragment);
+            if (itemId == R.id.nav_todo) {
+                transaction.replace(R.id.fragmentCV, new ToDoFragment());
+            } else if (itemId == R.id.nav_calendar) {
+                transaction.replace(R.id.fragmentCV, new ScheduleFragment());
+            }
+            transaction.addToBackStack(null);
+            transaction.commit();
+            drawerLayout.closeDrawers();
+            return true;
+        });
+
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragmentCV, new ScheduleFragment());
             transaction.commit();
         }
-
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
