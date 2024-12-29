@@ -157,17 +157,24 @@ public class AddTaskFragment extends Fragment {
                     .add(task)
                     .addOnSuccessListener(documentReference -> {
                         String uniqueId = documentReference.getId();
-                        Log.d("Firestore", "Reminder added: " + uniqueId);
-                        Toast.makeText(getContext(), "Reminder Added", Toast.LENGTH_SHORT).show();
-                        getActivity().getSupportFragmentManager().popBackStack();
+                        Log.d("Firestore", "Generated Document ID: " + uniqueId);
+                        task.put("documentId", uniqueId); // Add documentId to the task map
+                        Toast.makeText(getContext(), "Task added successfully", Toast.LENGTH_SHORT).show();
+                        Log.d("Firestore", "Created and Inserted Document ID: " + uniqueId);
+                        requireActivity().getSupportFragmentManager().popBackStack();
+                        // Navigate to Task_Detail
+
                     })
                     .addOnFailureListener(e -> {
                         Log.e("Firestore", "Error adding reminder", e);
                     });
+
         });
 
         return view;
     }
+
+
 
     private void showTimePickerDialog(TimeSetCallback callback) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
