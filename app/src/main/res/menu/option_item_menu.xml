@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" >
-<item
-android:id="@+id/nav_account"
-android:title="My Account" />
 
-<item
+    <item
 android:id="@+id/nav_calendar"
 android:title="Calendar" />
 
 <item
 android:id="@+id/nav_todo"
 android:title="To Do List" />
+    <item
+        android:id="@+id/nav_account"
+        android:title="Logout" />
 </menu>

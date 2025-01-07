@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.fragmentCV, new ToDoFragment());
             } else if (itemId == R.id.nav_calendar) {
                 transaction.replace(R.id.fragmentCV, new ScheduleFragment());
-            }
+            } else(itemId == R.id.)
             transaction.addToBackStack(null);
             transaction.commit();
             drawerLayout.closeDrawers();

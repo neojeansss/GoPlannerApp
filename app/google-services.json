@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "825479010830-d2hmvtumvnh1vtr1fbcu6f3dian3ef11.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.goplanner",
+            "certificate_hash": "3c8e14b7b7571781feb6344b12365f4d5c6bd8f8"
+          }
+        },
+        {
           "client_id": "825479010830-ea57qtrah1al55di44llcnssm0easnu4.apps.googleusercontent.com",
           "client_type": 3
         }
