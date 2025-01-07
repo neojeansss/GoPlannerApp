@@ -66,7 +66,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 bundle.putString("TYPE", type);
                  // Pass the document ID")
 
-                // Navigate to Task_detail fragment
                 Fragment taskDetailFragment = new Task_Detail();
                 taskDetailFragment.setArguments(bundle);
 

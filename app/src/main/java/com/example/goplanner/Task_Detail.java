@@ -55,6 +55,7 @@ public class Task_Detail extends Fragment {
             String timeEnd = getArguments().getString("TIME_END");
             String desc = getArguments().getString("DESC");
             String type = getArguments().getString("TYPE");
+
             String formattedDate = formatDate(date);
 
             detailTitleTV.setText(title);
