@@ -5,6 +5,6 @@
     android:id="@+id/passwordLoginTV"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ToDoListActivity">
+    tools:context=".RegisterActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
