@@ -1,5 +1,6 @@
 package com.example.goplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,6 +17,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -55,7 +58,12 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.fragmentCV, new ToDoFragment());
             } else if (itemId == R.id.nav_calendar) {
                 transaction.replace(R.id.fragmentCV, new ScheduleFragment());
-            } else(itemId == R.id.)
+            } else if (itemId == R.id.nav_account){
+
+                auth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+            }
             transaction.addToBackStack(null);
             transaction.commit();
             drawerLayout.closeDrawers();
