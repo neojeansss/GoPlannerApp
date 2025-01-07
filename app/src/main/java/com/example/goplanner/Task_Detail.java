@@ -13,19 +13,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Task_Detail extends Fragment {
 
     private FirebaseFirestore db;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,13 +32,9 @@ public class Task_Detail extends Fragment {
         db = FirebaseFirestore.getInstance("reminders");
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task__detail, container, false);
 
         EditText detailDescET = view.findViewById(R.id.detailDescET);
@@ -60,25 +55,25 @@ public class Task_Detail extends Fragment {
             String timeEnd = getArguments().getString("TIME_END");
             String desc = getArguments().getString("DESC");
             String type = getArguments().getString("TYPE");
+            String formattedDate = formatDate(date);
 
             detailTitleTV.setText(title);
-            detailDateTV.setText(date);
+            detailDateTV.setText(formattedDate);
             detailDescET.setText(desc);
             detailStartTimeET.setText(timeStart);
             detailEndTimeET.setText(timeEnd);
             detailEventBtn.setText(type);
+
             if (getArguments() != null && getArguments().containsKey("DOCUMENT_ID")) {
                 documentId = getArguments().getString("DOCUMENT_ID");
                 Log.d("Firestore", "Received Document ID: " + documentId);
             } else {
                 Log.e("Firestore", "DOCUMENT_ID is missing in arguments");
             }
-
         }
 
-
         String finalDocumentId1 = documentId;
-        detailSaveBtn.setOnClickListener(v->{
+        detailSaveBtn.setOnClickListener(v -> {
             if (finalDocumentId1 != null) {
                 String updatedTitle = detailTitleTV.getText().toString();
                 String updatedDate = detailDateTV.getText().toString();
@@ -117,17 +112,23 @@ public class Task_Detail extends Fragment {
             }
         });
 
-        detailDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle delete button click (e.g., delete task from database)
-                // ... (code to delete task)
-            }
+        detailDeleteBtn.setOnClickListener(v -> {
+
         });
 
-
-
-
         return view;
+    }
+
+    private String formatDate(String dateString) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = inputFormat.parse(dateString);
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return dateString;
+        }
     }
 }
