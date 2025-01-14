@@ -77,11 +77,19 @@ public class ScheduleFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        List<String> reminders = new ArrayList<>();
+                        List<TaskData> reminders = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("Firestore", "Document fetched: " + document.getData());
-                            reminders.add(document.getString("title")); // Fetch "title"
+
+                            // Convert Firestore document to TaskData object
+                            TaskData taskData = document.toObject(TaskData.class);
+                            taskData.setDocumentId(document.getId()); // Set the document ID
+                            reminders.add(taskData);
+
+                            Log.d("Firestore", "Document ID: " + taskData.getDocumentId());
                         }
+                        TaskAdapter adapter = new TaskAdapter(reminders);
+                        adapter.updateData(reminders);
 
                         if (reminders.isEmpty()) {
                             PanelNoList panelNoList = new PanelNoList();
