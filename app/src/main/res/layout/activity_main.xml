@@ -8,12 +8,12 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/main"
+        android:id="@+id/passwordLoginTV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F5FFFC"
         android:orientation="vertical"
-        android:padding="16dp">
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -21,7 +21,53 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:title="Drawer Example" />
+            android:paddingStart="8dp"
+            app:title="">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <!-- LinearLayout inside the RelativeLayout -->
+            <LinearLayout
+                android:id="@+id/toolbar_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp">
+
+        <!-- Burger Icon -->
+                <ImageView
+                    android:id="@+id/burger_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Menu Icon"
+                    android:src="@drawable/menu_hamburger" />
+
+                <!-- Logo Icon -->
+                <ImageView
+                    android:id="@+id/logo_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/logocalendar"
+                    android:contentDescription="Logo" />
+
+                <!-- Optional Text or Image -->
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/goplanner"
+                    android:contentDescription="Image 2" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentCV"

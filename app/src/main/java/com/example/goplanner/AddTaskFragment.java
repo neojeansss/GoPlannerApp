@@ -156,18 +156,36 @@ public class AddTaskFragment extends Fragment {
             db.collection("reminders")
                     .add(task)
                     .addOnSuccessListener(documentReference -> {
-                        String uniqueId = documentReference.getId();
+                        String uniqueId = documentReference.getId(); // Get the Document ID
                         Log.d("Firestore", "Generated Document ID: " + uniqueId);
-                        task.put("documentId", uniqueId); // Add documentId to the task map
+                        task.put("documentId", uniqueId); // Add the documentId to the task map
+
+                        // Now pass the documentId to the Task_Detail Fragment
+                        Bundle bundle = new Bundle();
+                        bundle.putString("DOCUMENT_ID", uniqueId);
+                        bundle.putString("TITLE", title);
+                        bundle.putString("DATE", date);
+                        bundle.putString("TIME_START", timeStart);
+                        bundle.putString("TIME_END", timeEnd);
+                        bundle.putString("DESC", desc);
+                        bundle.putString("TYPE", type);
+
+                        Fragment taskDetailFragment = new Task_Detail();
+                        taskDetailFragment.setArguments(bundle);
+
+                        // Navigate to Task_Detail Fragment
+                        requireActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentCV, taskDetailFragment)
+                                .addToBackStack(null)
+                                .commit();
+
                         Toast.makeText(getContext(), "Task added successfully", Toast.LENGTH_SHORT).show();
-                        Log.d("Firestore", "Created and Inserted Document ID: " + uniqueId);
-                        requireActivity().getSupportFragmentManager().popBackStack();
-                        // Navigate to Task_Detail
 
                     })
                     .addOnFailureListener(e -> {
                         Log.e("Firestore", "Error adding reminder", e);
                     });
+
 
         });
 

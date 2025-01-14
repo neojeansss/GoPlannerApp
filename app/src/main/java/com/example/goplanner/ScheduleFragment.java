@@ -11,20 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ScheduleFragment extends Fragment {
 
     private String selectedDate;
-    private FirebaseFirestore firestore; // Firestore instance
+    private FirebaseFirestore firestore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,10 @@ public class ScheduleFragment extends Fragment {
 
         // Initialize Firestore
         firestore = FirebaseFirestore.getInstance();
+
+        // Set selectedDate to the current date as the default
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        selectedDate = sdf.format(System.currentTimeMillis());
     }
 
     @Override
@@ -42,12 +46,13 @@ public class ScheduleFragment extends Fragment {
         MaterialButton mainAddBtn = view.findViewById(R.id.mainAddBtn);
         CalendarView calendarView = view.findViewById(R.id.calendarView2);
 
+        calendarView.setDate(parseDateToMillis(selectedDate), false, true);
+        fetchRemindersForDate(selectedDate);
 
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            selectedDate = year + "-" + String.format("%02d",month+1) + "-" + String.format("%02d", dayOfMonth);
+            selectedDate = year + "-" + String.format("%02d", month + 1) + "-" + String.format("%02d", dayOfMonth);
             Log.d("ScheduleFragment", "Selected Date: " + selectedDate);
 
-            // Fetch data from Firestore for the selected date
             fetchRemindersForDate(selectedDate);
         });
 
@@ -72,11 +77,19 @@ public class ScheduleFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        List<String> reminders = new ArrayList<>();
+                        List<TaskData> reminders = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("Firestore", "Document fetched: " + document.getData());
-                            reminders.add(document.getString("title")); // Fetch "title"
+
+                            // Convert Firestore document to TaskData object
+                            TaskData taskData = document.toObject(TaskData.class);
+                            taskData.setDocumentId(document.getId()); // Set the document ID
+                            reminders.add(taskData);
+
+                            Log.d("Firestore", "Document ID: " + taskData.getDocumentId());
                         }
+                        TaskAdapter adapter = new TaskAdapter(reminders);
+                        adapter.updateData(reminders);
 
                         if (reminders.isEmpty()) {
                             PanelNoList panelNoList = new PanelNoList();
@@ -98,5 +111,15 @@ public class ScheduleFragment extends Fragment {
         fragment.setArguments(bundle);
         transaction.replace(R.id.childFragmentContainer, fragment);
         transaction.commitAllowingStateLoss();
+    }
+
+    private long parseDateToMillis(String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            return sdf.parse(date).getTime();
+        } catch (Exception e) {
+            Log.e("ScheduleFragment", "Error parsing date to millis", e);
+            return System.currentTimeMillis();
+        }
     }
 }

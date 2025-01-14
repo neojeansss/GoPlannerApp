@@ -2,6 +2,7 @@ package com.example.goplanner;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         String type = taskData.get(position).getType();
         String desc = taskData.get(position).getDesc();
         String documentId = taskData.get(position).getDocumentId();
+        Log.d("TaskAdapter", "Document ID: " + documentId);
+
+
 
         holder.todoTitleTV.setText(title);
         holder.todoDateTV.setText(date);
@@ -65,8 +69,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 bundle.putString("TIME_END", timeEnd);
                 bundle.putString("TYPE", type);
                  // Pass the document ID")
+                Log.d("TaskAdapter", "Passing Bundle to Task_Detail: " + bundle);
 
-                // Navigate to Task_detail fragment
+
                 Fragment taskDetailFragment = new Task_Detail();
                 taskDetailFragment.setArguments(bundle);
 
@@ -84,6 +89,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     public int getItemCount() {
         return taskData.size();
     }
+
+    public void updateData(List<TaskData> newData) {
+        for (TaskData task : newData) {
+            Log.d("TaskAdapter", "Task: " + task.getTitle() + ", Document ID: " + task.getDocumentId());
+        }
+        this.taskData = newData;
+        notifyDataSetChanged();
+    }
+
 
     public class TaskHolder extends RecyclerView.ViewHolder{
         TextView todoTitleTV, todoDateTV, todoStartTimeTV, todoEndTimeTV, toDoTypeTV;
